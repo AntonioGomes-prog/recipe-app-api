@@ -14,12 +14,12 @@ from recipe.serializers import (
 )
 
 
-RECIPES_URL =reverse('recipe:recipe-list')
+RECIPES_URL = reverse('recipe:recipe-list')
 
 
 def detail_url(recipe_id):
     """Create and return a recipe detail URL."""
-    return reverse('recipe:recipe_detail', args=[recipe_id])
+    return reverse('recipe:recipe-detail', args=[recipe_id])
 
 
 def create_recipe(user, **params):
@@ -51,7 +51,7 @@ class PublicRecipeAPITests(TestCase):
 
 
 class PrivateRecipeApiTests(TestCase):
-    """Test Authenticated API requests."""
+    """Test authenticated API requests."""
 
     def setUp(self):
         self.client = APIClient()
@@ -61,7 +61,7 @@ class PrivateRecipeApiTests(TestCase):
         )
         self.client.force_authenticate(self.user)
 
-    def test_retrive_recipes(self):
+    def test_retrieve_recipes(self):
         """Test retrieving a list of recipes."""
         create_recipe(user=self.user)
         create_recipe(user=self.user)
