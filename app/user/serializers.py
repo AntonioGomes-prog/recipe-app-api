@@ -7,7 +7,6 @@ from django.contrib.auth import (
     authenticate,
     )
 from django.utils.translation import gettext as _
-from django.core.exceptions import ValidationError
 
 
 class UserSerializer(serializers.ModelSerializer):
