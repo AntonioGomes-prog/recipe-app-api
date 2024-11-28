@@ -31,7 +31,7 @@ def detail_url(recipe_id):
 
 def image_upload_url(recipe_id):
     """Create and return a recipe detail URL."""
-    return reverse('recipe:recipe-detail', args=[recipe_id])
+    return reverse('recipe:recipe-upload-image', args=[recipe_id])
 
 def create_recipe(user, **params):
     """Create and return a sample recipe."""
@@ -286,7 +286,7 @@ class PrivateRecipeApiTests(TestCase):
         self.assertEqual(res.status_code, status.HTTP_200_OK)
         self.assertEqual(recipe.tags.count(), 0)
 
-    def test_recipe_with_new_ingredients(self):
+    def test_create_recipe_with_new_ingredients(self):
         """Test creating a recipe with new ingredients."""
         payload = {
             'title': 'Cauliflower Tacos',
@@ -375,7 +375,7 @@ class PrivateRecipeApiTests(TestCase):
 
 
 class ImageUploadTests(TestCase):
-    """Tests for the image upload API"""
+    """Tests for the image upload API."""
 
     def setUp(self):
         self.client = APIClient()
@@ -402,10 +402,10 @@ class ImageUploadTests(TestCase):
         self.recipe.refresh_from_db()
         self.assertEqual(res.status_code, status.HTTP_200_OK)
         self.assertIn('image', res.data)
-        self.assertTrue(self.recipe.image)
+        self.assertTrue(os.path.exists(self.recipe.image.path))
 
     def test_upload_image_bad_request(self):
-        """Test uploading inavlid image"""
+        """Test uploading an invalid image"""
         url = image_upload_url(self.recipe.id)
         payload = {'image': 'notanimage'}
         res = self.client.post(url, payload, format='multipart')

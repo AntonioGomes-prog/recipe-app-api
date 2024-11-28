@@ -1,5 +1,5 @@
 """
-Serializers for Recipe APIs
+Serializers for recipe APIs
 """
 from rest_framework import serializers
 from core.models import (
@@ -10,7 +10,7 @@ from core.models import (
 
 
 class IngredientSerializer(serializers.ModelSerializer):
-    """Serializer for ingredients"""
+    """Serializer for ingredients."""
 
     class Meta:
         model = Ingredient
@@ -44,7 +44,7 @@ class RecipeSerializer(serializers.ModelSerializer):
         """Handle getting or creating tags as needed."""
         auth_user = self.context['request'].user
         for tag in tags:
-            tag_obj, create = Tag.objects.get_or_create(
+            tag_obj, created = Tag.objects.get_or_create(
                 user=auth_user,
                 **tag,
             )
@@ -54,7 +54,7 @@ class RecipeSerializer(serializers.ModelSerializer):
         """Handle getting or creating ingredients as needed."""
         auth_user = self.context['request'].user
         for ingredient in ingredients:
-            ingredient_obj, create = Ingredient.objects.get_or_create(
+            ingredient_obj, created = Ingredient.objects.get_or_create(
                 user=auth_user,
                 **ingredient,
             )
@@ -62,7 +62,7 @@ class RecipeSerializer(serializers.ModelSerializer):
 
 
     def create(self, validated_data):
-        """Create a Recipe."""
+        """Create a recipe."""
         tags = validated_data.pop('tags', [])
         ingredients = validated_data.pop('ingredients', [])
         recipe = Recipe.objects.create(**validated_data)
