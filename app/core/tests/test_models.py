@@ -65,7 +65,7 @@ class ModelTests(TestCase):
             user=user,
             title='Sample recipe name',
             time_minutes=5,
-            price=Decimal('5.50'), # For a real case App, change Decimal value to Integer value
+            price=Decimal('5.50'),   # For real case alter to Int.
             description='Sample recipe description',
         )
 
